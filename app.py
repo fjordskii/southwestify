@@ -4,6 +4,8 @@ from datetime import datetime
 import logging
 import os
 
+from checkin import auto_checkin
+
 
 """
 TODO
@@ -31,25 +33,27 @@ scheduler = BackgroundScheduler({'apscheduler.timezone': 'America/Chicago'})
 scheduler.start()
 
 ####### EXAMPLE CURL CALL
-# curl -X POST http://127.0.0.1:5000/schedulePrint  -H 'content-type: application/json' -d '{"time":"2018-07-27T01:25","text": "apscheduler"}'
-# curl -X POST http://fordwh44.pythonanywhere.com/schedulePrint  -H 'content-type: application/json' -d '{"time":"2019-12-16T10:10","text": "apscheduler"}'
+# curl -X POST http://127.0.0.1:5000/schedule-flight  -H 'content-type: application/json' -d '{"time":"2019-12-16T11:17","conf": "ABC123", "fname": "ford", "lname": "beezel"}'
+# curl -X POST https://pyschedule.herokuapp.com/schedule-flight  -H 'content-type: application/json' -d '{"time":"2019-12-16T10:10","text": "apscheduler"}'
 #######
 
 @flask_app.route('/', methods=['GET'])
 def hello():
     return 'hello'
 
-@flask_app.route('/schedulePrint', methods=['POST'])
+@flask_app.route('/schedule-flight', methods=['POST'])
 def schedule_to_print():
     data = request.get_json()
     #get time to schedule and text to print from the json
     time = data.get('time')
-    text = data.get('text')
+    conf = data.get('conf')
+    fname = data.get('fname')
+    lname = data.get('lname')
     #convert to datetime
     date_time = datetime.strptime(str(time), '%Y-%m-%dT%H:%M')
     #schedule the method 'printing_something' to run the the given 'date_time' with the args 'text'
-    job = scheduler.add_job(printing_something, trigger='date', next_run_time=str(date_time),
-                            args=[text])
+    job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(date_time),
+                            args=[conf, fname, lname])
     return "job details: %s" % job
 
 
