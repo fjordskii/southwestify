@@ -8,6 +8,7 @@ from checkin import auto_checkin
 
 
 """
+VENV: (pyschedule)
 TODO
  -import test checkin method
  -run that
