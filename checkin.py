@@ -55,21 +55,24 @@ def auto_checkin(reservation_number, first_name, last_name, verbose=False):
 
     threads = []
 
-    # find all eligible legs for checkin
-    for leg in body['bounds']:
-        # calculate departure for this leg
-        airport = "{}, {}".format(leg['departureAirport']['name'], leg['departureAirport']['state'])
-        takeoff = "{} {}".format(leg['departureDate'], leg['departureTime'])
-        airport_tz = openflights.timezone_for_airport(leg['departureAirport']['code'])
-        date = airport_tz.localize(datetime.strptime(takeoff, '%Y-%m-%d %H:%M'))
-        if date > now:
-            # found a flight for checkin!
-            print("Flight information found, departing {} at {}".format(airport, date.strftime('%b %d %I:%M%p')))
-            # Checkin with a thread
-            t = Thread(target=schedule_checkin, args=(date, r))
-            t.daemon = True
-            t.start()
-            threads.append(t)
+    try:
+        # find all eligible legs for checkin
+        for leg in body['bounds']:
+            # calculate departure for this leg
+            airport = "{}, {}".format(leg['departureAirport']['name'], leg['departureAirport']['state'])
+            takeoff = "{} {}".format(leg['departureDate'], leg['departureTime'])
+            airport_tz = openflights.timezone_for_airport(leg['departureAirport']['code'])
+            date = airport_tz.localize(datetime.strptime(takeoff, '%Y-%m-%d %H:%M'))
+            if date > now:
+                # found a flight for checkin!
+                print("Flight information found, departing {} at {}".format(airport, date.strftime('%b %d %I:%M%p')))
+                # Checkin with a thread
+                t = Thread(target=schedule_checkin, args=(date, r))
+                t.daemon = True
+                t.start()
+                threads.append(t)
+    except ValueError as err:
+        raise(err)
 
     # cleanup threads while handling Ctrl+C
     while True:
