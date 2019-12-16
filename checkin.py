@@ -49,7 +49,6 @@ def schedule_checkin(flight_time, reservation):
 def auto_checkin(reservation_number, first_name, last_name, verbose=False):
     r = Reservation(reservation_number, first_name, last_name, verbose)
     body = r.lookup_existing_reservation()
-
     # Get our local current time
     now = datetime.utcnow().replace(tzinfo=utc)
     tomorrow = now + timedelta(days=1)

@@ -5,7 +5,6 @@ import logging
 import os
 
 from checkin import auto_checkin
-from tests.checkin_test import test_checkin
 
 
 """
@@ -52,7 +51,7 @@ def schedule_to_print():
     #convert to datetime
     date_time = datetime.strptime(str(time), '%Y-%m-%dT%H:%M')
     #schedule the method 'printing_something' to run the the given 'date_time' with the args 'text'
-    job = scheduler.add_job(test_checkin, trigger='date', next_run_time=str(date_time),
+    job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(date_time),
                             args=[conf, fname, lname])
     return "job details: %s" % job
 
