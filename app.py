@@ -44,7 +44,7 @@ scheduler.start()
 ####### EXAMPLE CURL CALL
 # curl -X POST http://127.0.0.1:5000/schedule-flight  -H 'content-type: application/json' -d '{"conf": "NFMIU4", "fname": "ford", "lname": "heacock"}'
 # curl -X POST https://pyschedule.herokuapp.com/schedule-flight  -H 'content-type: application/json' -d '{"conf": "NFMIU4", "fname": "ford", "lname": "heacock"}'
-# curl -X POST https://pyschedule.herokuapp.com/schedule-flight  -H 'content-type: application/json' -d '{"time":"2019-12-17T12:36", "conf": "NFMIU4", "fname": "ford", "lname": "heacock"}'
+# curl -X POST https://pyschedule.herokuapp.com/schedule-flight  -H 'content-type: application/json' -d '{"time":"2019-12-17T12:38", "conf": "NFMIU4", "fname": "ford", "lname": "heacock"}'
 
 @flask_app.route('/', methods=['GET'])
 def hello():
@@ -94,4 +94,4 @@ def thanks():
 
 
 if __name__ == '__main__':
-    flask_app.run(threaded=True)
+    flask_app.run()
