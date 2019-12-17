@@ -1,6 +1,8 @@
 from flask import Flask, request, render_template, redirect, url_for
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+import asyncio
+import time
 import datetime
 import pytz
 import logging
@@ -32,15 +34,15 @@ log.addHandler(h)
 flask_app = Flask(__name__)
 
 # initialize scheduler with your preferred timezone
-scheduler = AsyncIOScheduler({'apscheduler.timezone': 'America/Chicago'})
+scheduler = BackgroundScheduler({'apscheduler.timezone': 'America/Chicago'})
 
 # add a custom jobstore to persist jobs across sessions (default is in-memory)
 # scheduler.add_jobstore('sqlalchemy', url='sqlite:////tmp/schedule.db')
 scheduler.start()
 
 ####### EXAMPLE CURL CALL
-# curl -X POST http://127.0.0.1:5000/schedule-flight  -H 'content-type: application/json' -d '{"time":"2019-12-16T11:17","conf": "ABC123", "fname": "ford", "lname": "beezel"}'
-# curl -X POST https://pyschedule.herokuapp.com/schedule-flight  -H 'content-type: application/json' -d '{"time":"2019-12-16T11:17","conf": "ABC123", "fname": "ford", "lname": "beezel"}'
+# curl -X POST http://127.0.0.1:5000/schedule-flight  -H 'content-type: application/json' -d '{"conf": "NFMIU4", "fname": "ford", "lname": "heacock"}'
+# curl -X POST https://pyschedule.herokuapp.com/schedule-flight  -H 'content-type: application/json' -d '{"conf": "NFMIU4", "fname": "ford", "lname": "heacock"}'
 #######
 
 @flask_app.route('/', methods=['GET'])
@@ -68,14 +70,14 @@ def schedule_flight():
     data = request.form
     now = datetime.datetime.now()
 
-    now_plus_5 = now + datetime.timedelta(minutes = 5)
+    now_plus_5 = now + datetime.timedelta(minutes = 1)
     now_plus_5 = now_plus_5.replace(second=0, microsecond=0)
     #get time to schedule and text to print from the json
     conf = data.get('conf')
     fname = data.get('fname')
     lname = data.get('lname')
 
-    print('Check in details: {} {} {}'.format(conf, fname, lname))
+    print('Check in details: {} {} {}. Running at {}'.format(conf, fname, lname, now_plus_5))
     job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(now_plus_5),
                             args=[conf, fname, lname])
     return redirect(url_for('thanks'))
@@ -86,5 +88,12 @@ def thanks():
 
 
 if __name__ == '__main__':
+    scheduler.start()
+    try:
+        # This is here to simulate application activity (which keeps the main thread alive).
+        while True:
+            time.sleep(2)
+    except (KeyboardInterrupt, SystemExit):
+        # Not strictly necessary if daemonic mode is enabled but should be done if possible
+        scheduler.shutdown()
     # Threaded option to enable multiple instances for multiple user access support
-    flask_app.run(threaded=True, port=5000)
