@@ -1,6 +1,7 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for
 from apscheduler.schedulers.background import BackgroundScheduler
 import datetime
+import pytz
 import logging
 import os
 
@@ -12,6 +13,7 @@ VENV: (pyschedule)
 TODO
  -import test checkin method
  -run that
+ -conf example: NFMIU4/NFO8SY
 """
 
 
@@ -51,6 +53,8 @@ def schedule_to_print():
     fname = data.get('fname')
     lname = data.get('lname')
 
+    print('Check in details: {} {} {}'.format(conf, fname, lname))
+
     date_time = datetime.datetime.strptime(str(time), '%Y-%m-%dT%H:%M')
 
     job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(date_time),
@@ -62,7 +66,7 @@ def schedule_to_print():
 def schedule_flight():
     data = request.form
     now = datetime.datetime.now()
-    print(now)
+
     now_plus_5 = now + datetime.timedelta(minutes = 5)
     now_plus_5 = now_plus_5.replace(second=0, microsecond=0)
     #get time to schedule and text to print from the json
@@ -70,9 +74,15 @@ def schedule_flight():
     fname = data.get('fname')
     lname = data.get('lname')
 
+    print('Check in details: {} {} {}'.format(conf, fname, lname))
+    # auto_checkin(conf, fname, lname)
     job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(now_plus_5),
                             args=[conf, fname, lname])
-    return "job details: %s" % job
+    return redirect(url_for('thanks'))
+
+@flask_app.route('/thanks', methods=['GET'])
+def thanks():
+    return render_template('thanks.html')
 
 
 if __name__ == '__main__':
