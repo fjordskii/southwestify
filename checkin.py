@@ -47,6 +47,7 @@ def schedule_checkin(flight_time, reservation):
 
 
 def auto_checkin(reservation_number, first_name, last_name, verbose=False):
+    print('running auto checkin with: {} {} {}'.format(reservation_number, first_name, last_name))
     r = Reservation(reservation_number, first_name, last_name, verbose)
     body = r.lookup_existing_reservation()
     # Get our local current time
