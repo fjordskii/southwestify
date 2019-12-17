@@ -63,7 +63,7 @@ def schedule_to_print():
     date_time = datetime.datetime.strptime(str(time), '%Y-%m-%dT%H:%M')
     #schedule the method 'printing_something' to run the the given 'date_time' with the args 'text'
     job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(date_time),
-                            args=[conf, fname, lname], jobstore={'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite'))
+                            args=[conf, fname, lname], jobstore={'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')})
     return "job details: %s" % job
 
 
