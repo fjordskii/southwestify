@@ -44,7 +44,7 @@ scheduler.start()
 
 ####### EXAMPLE CURL CALL
 # curl -X POST http://127.0.0.1:5000/schedule-flight  -H 'content-type: application/json' -d '{"conf": "NFMIU4", "fname": "ford", "lname": "heacock"}'
-# curl -X POST https://pyschedule.herokuapp.com/schedule-flight  -H 'content-type: application/json' -d '{"conf": "NFMIU4", "fname": "ford", "lname": "heacock"}'
+# curl -X POST https://pyschedule.herokuapp.com/schedule-flight  -H 'content-type: application/json' -d '{"conf": "NFMIU4", "fname": "ford", "lname": "heacock"}' "time":"2019-12-16T14:47"
 #######
 
 @flask_app.route('/', methods=['GET'])
@@ -56,18 +56,18 @@ def hello():
 def schedule_to_print():
     data = request.get_json()
     #get time to schedule and text to print from the json
-    conf = data.get('conf')
-    fname = data.get('fname')
-    lname = data.get('lname')
+    time = data.get('time')
+    text = data.get('text')
     #convert to datetime
     date_time = datetime.datetime.strptime(str(time), '%Y-%m-%dT%H:%M')
     #schedule the method 'printing_something' to run the the given 'date_time' with the args 'text'
-    job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(date_time),
-                            args=[conf, fname, lname])
-    data = request.get_json()
-    #get time to schedule and text to print from the json
-
+    job = scheduler.add_job(printing_something, trigger='date', next_run_time=str(date_time),
+                            args=[text])
     return "job details: %s" % job
+
+
+def printing_something(text):
+    print("printing %s at %s" % (text, datetime.datetime.now()))
 
 
 @flask_app.route('/schedule-flight-form', methods=['POST'])
