@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template
 from apscheduler.schedulers.background import BackgroundScheduler
-from datetime import datetime
+import datetime
 import logging
 import os
 
@@ -51,7 +51,7 @@ def schedule_to_print():
     fname = data.get('fname')
     lname = data.get('lname')
     #convert to datetime
-    date_time = datetime.strptime(str(time), '%Y-%m-%dT%H:%M')
+    date_time = datetime.datetime.strptime(str(time), '%Y-%m-%dT%H:%M')
     #schedule the method 'printing_something' to run the the given 'date_time' with the args 'text'
     job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(date_time),
                             args=[conf, fname, lname])
@@ -61,13 +61,14 @@ def schedule_to_print():
 @flask_app.route('/schedule-flight-form', methods=['POST'])
 def schedule_flight():
     data = request.form
-    time = datetime.now()
+    now = datetime.datetime.now()
+    now_plus_5 = now + datetime.timedelta(minutes = 5)
     #get time to schedule and text to print from the json
     conf = data.get('conf')
     fname = data.get('fname')
     lname = data.get('lname')
     #schedule the method 'printing_something' to run the the given 'date_time' with the args 'text'
-    job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(time),
+    job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(now_plus_5),
                             args=[conf, fname, lname])
     return "job details: %s" % job
 
