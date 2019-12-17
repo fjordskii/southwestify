@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.schedulers.blocking import BlockingScheduler
 import asyncio
 import time
 import datetime
@@ -34,7 +35,7 @@ log.addHandler(h)
 flask_app = Flask(__name__)
 
 # initialize scheduler with your preferred timezone
-scheduler = BackgroundScheduler({'apscheduler.timezone': 'America/Chicago'})
+scheduler = BlockingScheduler({'apscheduler.timezone': 'America/Chicago'})
 
 # add a custom jobstore to persist jobs across sessions (default is in-memory)
 # scheduler.add_jobstore('sqlalchemy', url='sqlite:////tmp/schedule.db')
