@@ -62,8 +62,9 @@ def schedule_to_print():
 def schedule_flight():
     data = request.form
     now = datetime.datetime.now()
+    print(now)
     now_plus_5 = now + datetime.timedelta(minutes = 5)
-    now_plus_5.replace(second=0, microsecond=0)
+    now_plus_5 = now_plus_5.replace(second=0, microsecond=0)
     #get time to schedule and text to print from the json
     conf = data.get('conf')
     fname = data.get('fname')
