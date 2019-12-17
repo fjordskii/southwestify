@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect, url_for
-from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.background import BackgroundScheduler, AsyncIOScheduler
 import datetime
 import pytz
 import logging
@@ -14,6 +14,9 @@ TODO
  -import test checkin method
  -run that
  -conf example: NFMIU4/NFO8SY
+ -(it works without apscheduler)
+
+ -try with AsyncIOScheduler?
 """
 
 
@@ -28,7 +31,7 @@ log.addHandler(h)
 flask_app = Flask(__name__)
 
 # initialize scheduler with your preferred timezone
-scheduler = BackgroundScheduler({'apscheduler.timezone': 'America/Chicago'})
+scheduler = AsyncIOScheduler({'apscheduler.timezone': 'America/Chicago'})
 
 # add a custom jobstore to persist jobs across sessions (default is in-memory)
 # scheduler.add_jobstore('sqlalchemy', url='sqlite:////tmp/schedule.db')
@@ -48,18 +51,15 @@ def hello():
 def schedule_to_print():
     data = request.get_json()
     #get time to schedule and text to print from the json
-    time = data.get('time')
     conf = data.get('conf')
     fname = data.get('fname')
     lname = data.get('lname')
 
     print('Check in details: {} {} {}'.format(conf, fname, lname))
 
-    date_time = datetime.datetime.strptime(str(time), '%Y-%m-%dT%H:%M')
+    auto_checkin(conf, fname, lname)
 
-    job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(date_time),
-                            args=[conf, fname, lname])
-    return "job details: %s" % job
+    return 'Check in details: {} {} {}'.format(conf, fname, lname)
 
 
 @flask_app.route('/schedule-flight-form', methods=['POST'])
@@ -75,7 +75,6 @@ def schedule_flight():
     lname = data.get('lname')
 
     print('Check in details: {} {} {}'.format(conf, fname, lname))
-    # auto_checkin(conf, fname, lname)
     job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(now_plus_5),
                             args=[conf, fname, lname])
     return redirect(url_for('thanks'))
