@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
 import logging
@@ -39,7 +39,8 @@ scheduler.start()
 
 @flask_app.route('/', methods=['GET'])
 def hello():
-    return 'hello'
+    return render_template('index.html')
+
 
 @flask_app.route('/schedule-flight', methods=['POST'])
 def schedule_to_print():
@@ -55,6 +56,21 @@ def schedule_to_print():
     job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(date_time),
                             args=[conf, fname, lname])
     return "job details: %s" % job
+
+
+@flask_app.route('/schedule-flight-form', methods=['POST'])
+def schedule_flight():
+    data = request.form
+    time = datetime.now()
+    #get time to schedule and text to print from the json
+    conf = data.get('conf')
+    fname = data.get('fname')
+    lname = data.get('lname')
+    #schedule the method 'printing_something' to run the the given 'date_time' with the args 'text'
+    job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(time),
+                            args=[conf, fname, lname])
+    return "job details: %s" % job
+
 
 
 def printing_something(text):
