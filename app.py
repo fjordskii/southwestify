@@ -61,9 +61,7 @@ def schedule_to_print():
 
     print('Check in details: {} {} {}'.format(conf, fname, lname))
 
-    auto_checkin(conf, fname, lname)
-
-    return 'Check in details: {} {} {}'.format(conf, fname, lname)
+    return auto_checkin(conf, fname, lname)
 
 
 @flask_app.route('/schedule-flight-form', methods=['POST'])
