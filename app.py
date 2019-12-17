@@ -44,7 +44,7 @@ scheduler.start()
 ####### EXAMPLE CURL CALL
 # curl -X POST http://127.0.0.1:5000/schedule-flight  -H 'content-type: application/json' -d '{"conf": "NFMIU4", "fname": "ford", "lname": "heacock"}'
 # curl -X POST https://pyschedule.herokuapp.com/schedule-flight  -H 'content-type: application/json' -d '{"conf": "NFMIU4", "fname": "ford", "lname": "heacock"}'
-# curl -X POST https://pyschedule.herokuapp.com/schedule-flight  -H 'content-type: application/json' -d '{"time":"2019-12-17T12:38", "conf": "NFMIU4", "fname": "ford", "lname": "heacock"}'
+# curl -X POST https://pyschedule.herokuapp.com/schedule-flight  -H 'content-type: application/json' -d '{"time":"2019-12-17T12:42", "conf": "NFMIU4", "fname": "ford", "lname": "heacock"}'
 
 @flask_app.route('/', methods=['GET'])
 def hello():
@@ -76,17 +76,22 @@ def schedule_flight():
     data = request.form
     now = datetime.datetime.now()
 
-    now_plus_5 = now + datetime.timedelta(minutes = 1)
-    now_plus_5 = now_plus_5.replace(second=0, microsecond=0)
+    now_plus_1 = now + datetime.timedelta(minutes = 1)
+    now_plus_1 = now_plus_1.replace(second=0, microsecond=0)
     #get time to schedule and text to print from the json
     conf = data.get('conf')
     fname = data.get('fname')
     lname = data.get('lname')
 
-    print('Check in details: {} {} {}. Running at {}'.format(conf, fname, lname, now_plus_5))
-    job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(now_plus_5),
+    print('Check in details: {} {} {}. Running at {}'.format(conf, fname, lname, now_plus_1))
+    job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(now_plus_1),
                             args=[conf, fname, lname])
-    return redirect(url_for('thanks'))
+    return render_template('thanks.html', data={
+        'confirmation': conf,
+        'first_name': fname,
+        'last_name': lname,
+        'scheduled_for': now_plus_1
+    })
 
 @flask_app.route('/thanks', methods=['GET'])
 def thanks():
