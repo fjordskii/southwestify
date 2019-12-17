@@ -59,7 +59,7 @@ def schedule_flight_direct():
     date_time = datetime.datetime.strptime(str(time), '%Y-%m-%dT%H:%M')
     # schedule job
     job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(date_time),
-                            args=[conf, fname, lname], jobstore={'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')})
+                            args=[conf, fname, lname])
     return "job details: %s" % job
 
 
