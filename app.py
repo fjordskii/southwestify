@@ -89,7 +89,3 @@ def schedule_flight():
 @flask_app.route('/thanks', methods=['GET'])
 def thanks():
     return render_template('thanks.html')
-
-
-if __name__ == '__main__':
-    flask_app.run()
