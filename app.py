@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, redirect, url_for
-from apscheduler.schedulers.background import BackgroundScheduler, AsyncIOScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import datetime
 import pytz
 import logging
