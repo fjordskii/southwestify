@@ -50,9 +50,9 @@ def schedule_to_print():
     conf = data.get('conf')
     fname = data.get('fname')
     lname = data.get('lname')
-    #convert to datetime
+
     date_time = datetime.datetime.strptime(str(time), '%Y-%m-%dT%H:%M')
-    #schedule the method 'printing_something' to run the the given 'date_time' with the args 'text'
+
     job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(date_time),
                             args=[conf, fname, lname])
     return "job details: %s" % job
@@ -63,19 +63,15 @@ def schedule_flight():
     data = request.form
     now = datetime.datetime.now()
     now_plus_5 = now + datetime.timedelta(minutes = 5)
+    now_plus_5.replace(second=0, microsecond=0)
     #get time to schedule and text to print from the json
     conf = data.get('conf')
     fname = data.get('fname')
     lname = data.get('lname')
-    #schedule the method 'printing_something' to run the the given 'date_time' with the args 'text'
+
     job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(now_plus_5),
                             args=[conf, fname, lname])
     return "job details: %s" % job
-
-
-
-def printing_something(text):
-    print("printing %s at %s" % (text, datetime.now()))
 
 
 if __name__ == '__main__':
