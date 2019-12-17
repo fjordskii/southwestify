@@ -44,7 +44,7 @@ scheduler.start()
 ####### EXAMPLE CURL CALL
 # curl -X POST http://127.0.0.1:5000/schedule-flight  -H 'content-type: application/json' -d '{"conf": "NFMIU4", "fname": "ford", "lname": "heacock"}'
 # curl -X POST https://pyschedule.herokuapp.com/schedule-flight  -H 'content-type: application/json' -d '{"conf": "NFMIU4", "fname": "ford", "lname": "heacock"}'
-# curl -X POST https://pyschedule.herokuapp.com/schedule-flight  -H 'content-type: application/json' -d '{"time":"2019-12-17T12:42", "conf": "NFMIU4", "fname": "ford", "lname": "heacock"}'
+# curl -X POST https://pyschedule.herokuapp.com/schedule-flight  -H 'content-type: application/json' -d '{"time":"2019-12-17T12:42", "conf": "NFO8SY", "fname": "Haley", "lname": "Heacock"}'
 
 @flask_app.route('/', methods=['GET'])
 def hello():
@@ -63,7 +63,7 @@ def schedule_to_print():
     date_time = datetime.datetime.strptime(str(time), '%Y-%m-%dT%H:%M')
     #schedule the method 'printing_something' to run the the given 'date_time' with the args 'text'
     job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(date_time),
-                            args=[conf, fname, lname])
+                            args=[conf, fname, lname], jobstore={'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')})
     return "job details: %s" % job
 
 
@@ -99,4 +99,5 @@ def thanks():
 
 
 if __name__ == '__main__':
+    print(scheduler.get_all_jobs())
     flask_app.run()
