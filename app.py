@@ -77,7 +77,7 @@ def schedule_flight():
 
     print('Check in details: {} {} {}. Running at {}'.format(conf, fname, lname, now_plus_1))
     job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(now_plus_1),
-                            args=[conf, fname, lname], jobstore={'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')})
+                            args=[conf, fname, lname])
     return render_template('thanks.html', data={
         'confirmation': conf,
         'first_name': fname,
@@ -85,6 +85,11 @@ def schedule_flight():
         'scheduled_for': now_plus_1
     })
 
+
 @flask_app.route('/thanks', methods=['GET'])
 def thanks():
     return render_template('thanks.html')
+
+
+if __name__ == '__main__':
+    flask_app.run()
