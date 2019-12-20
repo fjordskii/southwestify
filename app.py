@@ -56,7 +56,7 @@ def schedule_flight():
     lname = data.get('lname')
 
     now = datetime.datetime.now()
-    now_plus_1 = now + datetime.timedelta(seconds = 15)
+    now_plus_1 = now + datetime.timedelta(minutes = 1)
     now_plus_1 = now_plus_1.replace(second=0, microsecond=0)
     print('Check in details: {} {} {}. Running at {}'.format(conf, fname, lname, now_plus_1))
     job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(now_plus_1),
