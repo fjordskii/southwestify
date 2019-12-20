@@ -3,6 +3,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
+from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 import asyncio
 import time
 import datetime
@@ -11,6 +12,7 @@ import logging
 import os
 
 from checkin import auto_checkin
+from tests.checkin_test import test_checkin
 
 """
 Check-in attempt 1):
@@ -37,11 +39,31 @@ log.addHandler(h)
 
 flask_app = Flask(__name__)
 
-# initialize scheduler with your preferred timezone
-scheduler = BackgroundScheduler({'apscheduler.timezone': 'America/Chicago'}, jobstores={'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')})
+scheduler = BackgroundScheduler({
+    'apscheduler.jobstores.default': {
+        'type': 'sqlalchemy',
+        'url': 'sqlite:///jobs.sqlite'
+    },
+    'apscheduler.executors.default': {
+        'class': 'apscheduler.executors.pool:ThreadPoolExecutor',
+        'max_workers': '20'
+    },
+    'apscheduler.executors.processpool': {
+        'type': 'processpool',
+        'max_workers': '5'
+    },
+    'apscheduler.job_defaults.coalesce': 'false',
+    'apscheduler.job_defaults.max_instances': '3',
+    'apscheduler.timezone': 'America/Chicago',
+})
 
 scheduler.start()
 
+
+
+
+
+############# ROUTES #############
 @flask_app.route('/', methods=['GET'])
 def hello():
     return render_template('index.html')
@@ -60,6 +82,8 @@ def schedule_flight():
     lname = data.get('lname')
 
     print('Check in details: {} {} {}. Running at {}'.format(conf, fname, lname, now_plus_1))
+
+    # job = scheduler.add_job(test_checkin, trigger='date', next_run_time=str(now_plus_1))
     job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(now_plus_1),
                             args=[conf, fname, lname])
     return render_template('thanks.html', data={

@@ -15,6 +15,7 @@ Options:
 from datetime import datetime
 from datetime import timedelta
 from math import trunc
+from docopt import docopt
 from pytz import utc
 from southwest import Reservation, openflights
 from threading import Thread
@@ -81,3 +82,18 @@ def auto_checkin(reservation_number, first_name, last_name, verbose=False):
             if not t.isAlive():
                 threads.remove(t)
                 break
+
+
+if __name__ == '__main__':
+
+    arguments = docopt(__doc__, version='Southwest Checkin 3')
+    reservation_number = arguments['CONFIRMATION_NUMBER']
+    first_name = arguments['FIRST_NAME']
+    last_name = arguments['LAST_NAME']
+    verbose = arguments['--verbose']
+
+    try:
+        auto_checkin(reservation_number, first_name, last_name, verbose)
+    except KeyboardInterrupt:
+        print("Ctrl+C detected, canceling checkin")
+        sys.exit()
