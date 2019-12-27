@@ -1,17 +1,3 @@
-#!/usr/bin/env python
-"""Southwest Checkin.
-
-Usage:
-  checkin.py CONFIRMATION_NUMBER FIRST_NAME LAST_NAME [-v | --verbose]
-  checkin.py (-h | --help)
-  checkin.py --version
-
-Options:
-  -h --help     Show this screen.
-  -v --verbose  Show debugging information.
-  --version     Show version.
-
-"""
 from datetime import datetime
 from datetime import timedelta
 from math import trunc
@@ -21,6 +7,8 @@ from southwest import Reservation, openflights
 from threading import Thread
 import sys
 import time
+
+from utils.email_utils import send_email
 
 CHECKIN_EARLY_SECONDS = 5
 
@@ -35,7 +23,9 @@ def schedule_checkin(flight_time, reservation):
         # pretty print our wait time
         m, s = divmod(delta, 60)
         h, m = divmod(m, 60)
-        print("Too early to check in.  Waiting {} hours, {} minutes, {} seconds".format(trunc(h), trunc(m), s))
+        message = "Too early to check in.  Waiting {} hours, {} minutes, {} seconds".format(trunc(h), trunc(m), s)
+        print(message)
+        send_email(data=None, msg=message)
         try:
             time.sleep(delta)
         except OverflowError:
@@ -44,7 +34,9 @@ def schedule_checkin(flight_time, reservation):
     data = reservation.checkin()
     for flight in data['flights']:
         for doc in flight['passengers']:
-            print("{} got {}{}!".format(doc['name'], doc['boardingGroup'], doc['boardingPosition']))
+            message = "{} got {}{}!".format(doc['name'], doc['boardingGroup'], doc['boardingPosition'])
+            print(message)
+            send_email(doc)
 
 
 def auto_checkin(reservation_number, first_name, last_name, verbose=False):
@@ -56,7 +48,6 @@ def auto_checkin(reservation_number, first_name, last_name, verbose=False):
     tomorrow = now + timedelta(days=1)
 
     threads = []
-    print(body)
     # find all eligible legs for checkin
     for leg in body['bounds']:
         # calculate departure for this leg
