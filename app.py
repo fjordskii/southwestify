@@ -54,7 +54,7 @@ scheduler = BackgroundScheduler({
     },
     'apscheduler.job_defaults.coalesce': 'false',
     'apscheduler.job_defaults.max_instances': '3',
-    'apscheduler.timezone': 'America/New_York',
+    'apscheduler.timezone': 'America/Chicago',
 })
 
 scheduler.start()
