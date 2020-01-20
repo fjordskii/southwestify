@@ -1,13 +1,11 @@
 from flask import Flask, request, render_template, redirect, url_for
 from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
-import asyncio
 import time
 import datetime
 import pytz
+import uuid
 import logging
 import os
 
@@ -15,6 +13,10 @@ from checkin import auto_checkin
 from tests.checkin_test import test_checkin
 
 """
+WORKON SW
+
+fordsw swdatabase
+
 Check-in attempt 1):
 Only ran the last check-in request made, need to figure out multi processing
 Need to increase check-in attempts to 40
@@ -59,10 +61,6 @@ scheduler = BackgroundScheduler({
 
 scheduler.start()
 
-
-
-
-
 ############# ROUTES #############
 @flask_app.route('/', methods=['GET'])
 def hello():
@@ -73,7 +71,7 @@ def hello():
 def schedule_flight():
     data = request.form
     now = datetime.datetime.now()
-
+    unique_id = uuid.uuid4()
     now_plus_1 = now + datetime.timedelta(minutes = 1)
     now_plus_1 = now_plus_1.replace(second=0, microsecond=0)
 
@@ -85,7 +83,7 @@ def schedule_flight():
 
     # job = scheduler.add_job(test_checkin, trigger='date', next_run_time=str(now_plus_1))
     job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(now_plus_1),
-                            args=[conf, fname, lname])
+                            args=[conf, fname, lname], id=str(unique_id), replace_existing=True)
     return render_template('thanks.html', data={
         'confirmation': conf,
         'first_name': fname,

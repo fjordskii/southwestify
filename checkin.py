@@ -8,7 +8,7 @@ from threading import Thread
 import sys
 import time
 
-from utils.email_utils import send_email
+# from .utils.email_utils import send_email
 
 CHECKIN_EARLY_SECONDS = 5
 
