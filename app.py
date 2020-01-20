@@ -1,7 +1,5 @@
-from flask import Flask, request, render_template, redirect, url_for
-from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
-from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
+from flask import Flask, request, render_template, redirect, url_for, jsonify
+from flask_cors import CORS
 import time
 import datetime
 import pytz
@@ -9,8 +7,8 @@ import uuid
 import logging
 import os
 
-from checkin import auto_checkin
 from tests.checkin_test import test_checkin
+from routes import routes
 
 """
 WORKON SW
@@ -30,7 +28,6 @@ Got these two responses for some reason:
 2019-12-19T23:30:00.268274+00:00 app[web.1]: Sorry! We can't check you into this flight. Please see a gate agent.
 """
 
-
 log = logging.getLogger('apscheduler.executors.default')
 log.setLevel(logging.INFO)  # DEBUG
 
@@ -40,62 +37,8 @@ h.setFormatter(fmt)
 log.addHandler(h)
 
 flask_app = Flask(__name__)
-
-scheduler = BackgroundScheduler({
-    'apscheduler.jobstores.default': {
-        'type': 'sqlalchemy',
-        'url': 'sqlite:///jobs.sqlite'
-    },
-    'apscheduler.executors.default': {
-        'class': 'apscheduler.executors.pool:ThreadPoolExecutor',
-        'max_workers': '20'
-    },
-    'apscheduler.executors.processpool': {
-        'type': 'processpool',
-        'max_workers': '5'
-    },
-    'apscheduler.job_defaults.coalesce': 'false',
-    'apscheduler.job_defaults.max_instances': '3',
-    'apscheduler.timezone': 'America/Chicago',
-})
-
-scheduler.start()
-
-############# ROUTES #############
-@flask_app.route('/', methods=['GET'])
-def hello():
-    return render_template('index.html')
-
-
-@flask_app.route('/schedule-flight-form', methods=['POST'])
-def schedule_flight():
-    data = request.form
-    now = datetime.datetime.now()
-    unique_id = uuid.uuid4()
-    now_plus_1 = now + datetime.timedelta(minutes = 1)
-    now_plus_1 = now_plus_1.replace(second=0, microsecond=0)
-
-    conf = data.get('conf')
-    fname = data.get('fname')
-    lname = data.get('lname')
-
-    print('Check in details: {} {} {}. Running at {}'.format(conf, fname, lname, now_plus_1))
-
-    # job = scheduler.add_job(test_checkin, trigger='date', next_run_time=str(now_plus_1))
-    job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(now_plus_1),
-                            args=[conf, fname, lname], id=str(unique_id), replace_existing=True)
-    return render_template('thanks.html', data={
-        'confirmation': conf,
-        'first_name': fname,
-        'last_name': lname,
-        'scheduled_for': now_plus_1
-    })
-
-
-@flask_app.route('/thanks', methods=['GET'])
-def thanks():
-    return render_template('thanks.html')
-
+flask_app.register_blueprint(routes)
+CORS(flask_app, resources={r'/*': {'origins': '*'}})
 
 if __name__ == '__main__':
     flask_app.run()
