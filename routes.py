@@ -13,7 +13,15 @@ from checkin import auto_checkin
 
 routes = Blueprint('routes', __name__)
 
-# sanity check route
+@routes.route('/api/posts')
+def blog_posts():
+    return jsonify([])
+
+@routes.route('/', defaults={'path': ''})
+@routes.route('/<path:path>')
+def index(path):
+    return render_template('index.html')
+
 @routes.route('/ping', methods=['GET'])
 def ping_pong():
     return jsonify('pong!')

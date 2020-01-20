@@ -35,7 +35,9 @@ h = logging.StreamHandler()
 h.setFormatter(fmt)
 log.addHandler(h)
 
-flask_app = Flask(__name__)
+flask_app = Flask(__name__,
+                static_folder='client/dist/static',
+                template_folder='client/dist')
 flask_app.register_blueprint(routes)
 CORS(flask_app, resources={r'/*': {'origins': '*'}})
 
