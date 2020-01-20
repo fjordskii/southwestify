@@ -27,7 +27,7 @@ def hello():
 def schedule_flight():
     data = request.form
     now = datetime.datetime.now()
-    unique_id = uuid.uuid4()
+    unique_id = uuid.uuid4().hex
     now_plus_1 = now + datetime.timedelta(minutes = 1)
     now_plus_1 = now_plus_1.replace(second=0, microsecond=0)
 
@@ -39,7 +39,7 @@ def schedule_flight():
 
     # job = scheduler.add_job(test_checkin, trigger='date', next_run_time=str(now_plus_1))
     job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(now_plus_1),
-                            args=[conf, fname, lname], id=str(unique_id), replace_existing=True)
+                            args=[conf, fname, lname], id=unique_id, replace_existing=True)
     return render_template('thanks.html', data={
         'confirmation': conf,
         'first_name': fname,

@@ -27,7 +27,6 @@ Got these two responses for some reason:
 2019-12-19T23:29:58.886315+00:00 app[web.1]: Sorry! This reservation is not eligible for check in.
 2019-12-19T23:30:00.268274+00:00 app[web.1]: Sorry! We can't check you into this flight. Please see a gate agent.
 """
-
 log = logging.getLogger('apscheduler.executors.default')
 log.setLevel(logging.INFO)  # DEBUG
 
