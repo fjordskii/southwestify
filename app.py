@@ -15,7 +15,7 @@ from tests.checkin_test import test_checkin
 """
 WORKON SW
 
-fordsw swdatabase
+fordwh44 pyschedule
 
 Check-in attempt 1):
 Only ran the last check-in request made, need to figure out multi processing
