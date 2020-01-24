@@ -1,30 +1,32 @@
 import time
 import datetime
-import pytz
 import uuid
-import logging
 import os
+import json
 
-from flask import Blueprint, render_template
-from flask import request, render_template, url_for, jsonify
+from flask import request, render_template, url_for, jsonify, Blueprint
 
 from scheduler import scheduler
 from checkin import auto_checkin
+from utils.get_environment import environment
 
 routes = Blueprint('routes', __name__)
 
-@routes.route('/api/posts')
-def blog_posts():
-    return jsonify([])
+@routes.context_processor
+def inject_stage_and_region():
+    return dict(environment=environment)
+
 
 @routes.route('/', defaults={'path': ''})
 @routes.route('/<path:path>')
 def index(path):
     return render_template('index.html')
 
+
 @routes.route('/ping', methods=['GET'])
 def ping_pong():
     return jsonify('pong!')
+
 
 @routes.route('/', methods=['GET'])
 def hello():
@@ -33,7 +35,7 @@ def hello():
 
 @routes.route('/schedule-flight-form', methods=['POST'])
 def schedule_flight():
-    data = request.form
+    data = json.loads(request.data)
     now = datetime.datetime.now()
     unique_id = uuid.uuid4().hex
     now_plus_1 = now + datetime.timedelta(minutes = 1)
@@ -48,7 +50,7 @@ def schedule_flight():
     # job = scheduler.add_job(test_checkin, trigger='date', next_run_time=str(now_plus_1))
     job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(now_plus_1),
                             args=[conf, fname, lname], id=unique_id, replace_existing=True)
-    return render_template('thanks.html', data={
+    return jsonify({
         'confirmation': conf,
         'first_name': fname,
         'last_name': lname,

@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <div>
     <v-navigation-drawer v-model="drawer" app>
       <v-list dense>
         <v-list-item link>
@@ -30,7 +30,7 @@
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
           <v-col class="text-center">
-            <router-view></router-view>
+
           </v-col>
         </v-row>
       </v-container>
@@ -38,19 +38,16 @@
     <v-footer color="indigo" app>
       <span class="white--text">&copy; 2019</span>
     </v-footer>
-  </v-app>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'App',
-  data: () => ({
-    drawer: null,
-  }),
   props: {
     source: String,
   },
+  data: () => ({
+    drawer: null,
+  }),
 };
 </script>
-
-<style scoped></style>
