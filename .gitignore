@@ -6,3 +6,5 @@ htmlcov/
 coverage.xml
 .env
 .prettierrc.json
+schedule-my-flight-checkin.json
+node_modules/

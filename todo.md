@@ -7,4 +7,6 @@ fix CORS settings
 Use configs
 Have fail-safe if can't find check-in request
 add form validation
-add protected routes
+add protected route
+add firebase to js
+dockerize

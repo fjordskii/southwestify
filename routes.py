@@ -4,7 +4,7 @@ import uuid
 import os
 import json
 
-from flask import request, render_template, url_for, jsonify, Blueprint
+from flask import request, render_template, url_for, jsonify, Blueprint, redirect
 
 from scheduler import scheduler
 from checkin import auto_checkin
@@ -16,22 +16,14 @@ routes = Blueprint('routes', __name__)
 def inject_stage_and_region():
     return dict(environment=environment)
 
-
 @routes.route('/', defaults={'path': ''})
 @routes.route('/<path:path>')
 def index(path):
     return render_template('index.html')
 
-
 @routes.route('/ping', methods=['GET'])
 def ping_pong():
     return jsonify('pong!')
-
-
-@routes.route('/', methods=['GET'])
-def hello():
-    return render_template('index.html')
-
 
 @routes.route('/schedule-flight-form', methods=['POST'])
 def schedule_flight():
@@ -57,7 +49,30 @@ def schedule_flight():
         'scheduled_for': now_plus_1
     })
 
-
 @routes.route('/thanks', methods=['GET'])
 def thanks():
     return render_template('thanks.html')
+
+@routes.route('/register', methods=['POST'])
+def register():
+    from firebase import auth
+
+    data = json.loads(request.data)
+    email = data.get('email')
+    password = data.get('password')
+
+    user = auth.create_user_with_email_and_password(email, password)
+    data = jsonify({ 'user_id': user['idToken'], 'email': user['email'] })
+    return data
+
+@routes.route('/login', methods=['POST'])
+def login():
+    from firebase import auth
+
+    data = json.loads(request.data)
+    email = data.get('email')
+    password = data.get('password')
+
+    user = auth.sign_in_with_email_and_password(email, password)
+    data = jsonify({ 'user_id': user['idToken'], 'email': user['email'] })
+    return data
