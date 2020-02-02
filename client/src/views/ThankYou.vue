@@ -5,10 +5,10 @@
 </template>
 
 <script>
-import Thanks from "@/components/Thanks.vue";
+import Thanks from '@/components/Thanks.vue';
 
 export default {
-  name: "ThankYou",
+  name: 'ThankYou',
   components: {
     Thanks,
   },

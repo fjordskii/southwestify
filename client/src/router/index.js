@@ -2,7 +2,10 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import ThankYou from '../views/ThankYou.vue';
-import Test from '../views/Test.vue';
+import Login from '../views/Login.vue';
+import Register from '../views/Registration.vue';
+import Schedule from '../views/Schedule.vue';
+import Dashboard from '../views/Dashboard.vue';
 
 Vue.use(VueRouter);
 
@@ -19,9 +22,24 @@ const routes = [
     props: true,
   },
   {
-    path: '/test',
-    name: 'test',
-    component: Test,
+    path: '/login',
+    name: 'login',
+    component: Login,
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: Register,
+  },
+  {
+    path: '/schedule',
+    name: 'schedule',
+    component: Schedule,
+  },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: Dashboard,
   },
 ];
 

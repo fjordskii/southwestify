@@ -1,5 +1,4 @@
 switch to POSTGRESQL (heroku doesnt support sqlite)
-create UIs via Vue SPA
 add firebase auth
 cleanup code structure
 use .env variables
@@ -7,3 +6,5 @@ use .env variables
 fix CORS settings
 Use configs
 Have fail-safe if can't find check-in request
+add form validation
+add protected routes
