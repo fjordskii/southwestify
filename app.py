@@ -15,6 +15,10 @@ from routes import routes
 WORKON SW
 
 fordwh44 pyschedule
+docker build -t flaskdockkk .
+docker run -p 8000:5000 flaskdockkk
+heroku container:push web
+heroku container:release web
 """
 log = logging.getLogger('apscheduler.executors.default')
 log.setLevel(logging.INFO)
@@ -34,7 +38,6 @@ else:
     flask_app.config.from_object("config.ProductionConfig")
 
 flask_app.register_blueprint(routes)
-CORS(flask_app, resources={r'/*': {'origins': '*'}})
 
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
