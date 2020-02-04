@@ -26,7 +26,7 @@
             <v-list-item-title>Register</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link @click="navigateTo('schedule')">
+        <v-list-item link @click="navigateTo('schedule')" v-if="userLoggedIn">
           <v-list-item-action>
             <v-icon>mdi-calendar-today</v-icon>
           </v-list-item-action>
@@ -60,7 +60,7 @@
       </v-container>
     </v-content>
     <v-footer color="indigo" app>
-      <span class="white--text">&copy; 2019</span>
+      <span class="white--text">&copy; 2020</span>
     </v-footer>
   </v-app>
 </template>
@@ -76,11 +76,6 @@ export default {
   }),
   props: {
     source: String,
-  },
-  methods: {
-    navigateTo(path) {
-      this.$router.push({ path });
-    },
   },
 };
 </script>

@@ -15,6 +15,7 @@ from routes import routes
 WORKON SW
 
 fordwh44 pyschedule
+docker system prune -a
 docker build -t flaskdockkk .
 docker run -p 8000:5000 flaskdockkk
 heroku container:push web

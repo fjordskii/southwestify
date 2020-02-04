@@ -18,7 +18,8 @@
           </blockquote>
           <v-divider class="my-3"></v-divider>
           <div class="title mb-3">Start Scheduling Flights Now!</div>
-          <v-btn large color="primary" class="mx-0">Get Started</v-btn>
+          <v-btn large color="primary" class="mx-1" @click="navigateTo('register')">Register</v-btn>
+          <v-btn large color="primary" class="mx-1" @click="navigateTo('login')">Login</v-btn>
         </v-flex>
       </v-layout>
     </v-container>
@@ -26,8 +27,11 @@
 </template>
 
 <script>
+import UtilsMixin from '../mixins/UtilsMixin.vue';
+
 export default {
   name: 'Home',
+  mixins: [UtilsMixin],
 };
 </script>
 

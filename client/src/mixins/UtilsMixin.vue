@@ -15,6 +15,9 @@ export default {
     },
   },
   methods: {
+    navigateTo(path) {
+      if (this.$route.path !== path) this.$router.push(path).catch(() => {});
+    },
     signUpWithFirebase(email, password) {
       const user = {
         email,
@@ -23,7 +26,7 @@ export default {
       this.$store.dispatch('signUpAction', user)
         .then((response) => {
           console.log(response);
-          this.$router.push({ path: '/dashboard' });
+          this.navigateTo('dashboard');
         })
         .catch((err) => {
           console.log(err);
@@ -37,7 +40,7 @@ export default {
       this.$store.dispatch('signInAction', user)
         .then((response) => {
           console.log(response);
-          this.$router.push({ path: '/dashboard' });
+          this.navigateTo('dashboard');
         })
         .catch((err) => {
           console.log(err);
@@ -45,7 +48,7 @@ export default {
     },
     signOutWithFirebase() {
       this.$store.dispatch('signOutAction');
-      this.$router.push({ path: '/' });
+      this.navigateTo('home');
     },
   },
 };

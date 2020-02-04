@@ -6,6 +6,7 @@ import Login from '../views/Login.vue';
 import Register from '../views/Registration.vue';
 import Schedule from '../views/Schedule.vue';
 import Dashboard from '../views/Dashboard.vue';
+import store from '../store';
 
 Vue.use(VueRouter);
 
@@ -35,11 +36,29 @@ const routes = [
     path: '/schedule',
     name: 'schedule',
     component: Schedule,
+    beforeEnter: (to, from, next) => {
+      if (store.getters.user) {
+        next();
+      } else {
+        next({
+          name: 'home',
+        });
+      }
+    },
   },
   {
     path: '/dashboard',
     name: 'dashboard',
     component: Dashboard,
+    beforeEnter: (to, from, next) => {
+      if (store.getters.user) {
+        next();
+      } else {
+        next({
+          name: 'home',
+        });
+      }
+    },
   },
 ];
 
