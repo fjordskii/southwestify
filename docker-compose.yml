@@ -2,7 +2,8 @@ version: '3.7'
 
 services:
   web:
-    build: ./
+    build:
+      context: ./
     image: flaskdockkk:latest
     command: python manage.py run -h 0.0.0.0
     ports:
