@@ -10,9 +10,17 @@
             <v-list-item-title>Home</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item link @click="navigateTo('about')">
+          <v-list-item-action>
+            <v-icon>mdi-alert-circle-outline</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>About</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item link @click="navigateTo('login')" v-if="!userLoggedIn">
           <v-list-item-action>
-            <v-icon>mdi-contact-mail</v-icon>
+            <v-icon>mdi-account</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Login</v-list-item-title>
@@ -20,7 +28,7 @@
         </v-list-item>
         <v-list-item link @click="navigateTo('register')" v-if="!userLoggedIn">
           <v-list-item-action>
-            <v-icon>mdi-contact-mail</v-icon>
+            <v-icon>mdi-account-check</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Register</v-list-item-title>
@@ -59,9 +67,9 @@
         </v-row>
       </v-container>
     </v-content>
-    <v-footer color="indigo" app>
+    <!-- <v-footer color="indigo" app>
       <span class="white--text">&copy; 2020</span>
-    </v-footer>
+    </v-footer> -->
   </v-app>
 </template>
 

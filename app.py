@@ -1,5 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for, jsonify
-from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
+from flask_script import Manager
+from flask_migrate import Migrate, MigrateCommand
 import time
 import datetime
 import pytz
@@ -14,10 +16,20 @@ from routes import routes
 """
 WORKON SW
 
+NEED TO NPM RUN BUILD BEFORE BUILDING IMAGEs
+db:
 fordwh44 pyschedule
+psql -U fordwh44 -d pyschedule
+
 docker system prune -a
-docker build -t flaskdockkk .
-docker run -p 8000:5000 flaskdockkk
+docker build -t <image_name> .
+docker run -p 8000:5000 <image_name>
+
+OR
+
+docker-compose build
+docker-compose up -d
+
 heroku container:push web
 heroku container:release web
 """
@@ -37,6 +49,11 @@ if environment == "dev":
     flask_app.config.from_object("config.DevelopmentConfig")
 else:
     flask_app.config.from_object("config.ProductionConfig")
+
+flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(flask_app)
+from models import User, Flight
 
 flask_app.register_blueprint(routes)
 
