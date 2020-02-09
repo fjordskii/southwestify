@@ -1,11 +1,15 @@
 <template>
   <div class="home">
-    <h1>Dashboard bro</h1>
+    <v-btn color="primary" @click="navigateTo('schedule')">
+      <span>Schedule Check-in</span>
+    </v-btn>
   </div>
 </template>
 
 <script>
-export default {
+import UtilsMixin from '@/mixins/UtilsMixin.vue';
 
+export default {
+  mixins: [UtilsMixin],
 };
 </script>

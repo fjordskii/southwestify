@@ -2,7 +2,7 @@
   <v-app>
     <v-navigation-drawer v-model="drawer" app>
       <v-list dense>
-        <v-list-item link @click="navigateTo('/')">
+        <v-list-item link @click="homeNavigation">
           <v-list-item-action>
             <v-icon>mdi-home</v-icon>
           </v-list-item-action>
@@ -42,7 +42,7 @@
             <v-list-item-title>Schedule</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link @click="signOutWithFirebase" v-if='userLoggedIn'>
+        <v-list-item link @click="signOutWithFirebase" v-if="userLoggedIn">
           <v-list-item-action>
             <v-icon>mdi-account-box</v-icon>
           </v-list-item-action>
@@ -62,7 +62,7 @@
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
           <v-col class="text-center">
-              <router-view></router-view>
+            <router-view></router-view>
           </v-col>
         </v-row>
       </v-container>
@@ -82,6 +82,14 @@ export default {
   data: () => ({
     drawer: null,
   }),
+  methods: {
+    homeNavigation() {
+      if (this.userLoggedIn) {
+        return this.navigateTo('dashboard');
+      }
+      return this.navigateTo('home');
+    },
+  },
   props: {
     source: String,
   },
@@ -98,6 +106,6 @@ export default {
 
 .fade-enter,
 .fade-leave-active {
-  opacity: 0
+  opacity: 0;
 }
 </style>

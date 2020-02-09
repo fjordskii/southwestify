@@ -63,6 +63,30 @@ export default new Vuex.Store({
           });
       });
     },
+    signInWithProviderRedirect({ commit }) {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+      firebase.auth().useDeviceLanguage();
+
+      return new Promise((resolve, reject) => {
+        commit('setStatus', 'loading');
+        firebase
+          .auth()
+          .signInWithPopup(provider)
+          .then((response) => {
+            console.log(response);
+            commit('setUser', response.user.uid);
+            commit('setStatus', 'success');
+            commit('setError', null);
+            resolve(response);
+          })
+          .catch((error) => {
+            commit('setStatus', 'failure');
+            commit('setError', error.message);
+            reject(error);
+          });
+      });
+    },
     signOutAction({ commit }) {
       firebase
         .auth()

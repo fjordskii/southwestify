@@ -5,7 +5,7 @@
         <v-title><h3 class="display-3">About</h3></v-title>
         <blockquote class="blockquote text-justify">
           Ever forget to check-in to your flight? It SUCKS! Nobody wants to get B or even the
-          dreaded C seat. You're the last to board and the last to get off and often times are stuck
+          dreaded C seat. You're the last to board and the last to get off and are often times stuck
           sitting by the toilet.
         </blockquote>
         <blockquote class="blockquote text-justify">

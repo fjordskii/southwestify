@@ -1,8 +1,5 @@
 <script>
 export default {
-  STATUS_SUCCESS: 'success',
-  STATUS_FAILURE: 'failure',
-  STATUS_LOADING: 'loading',
   computed: {
     environment() {
       return window.env;
@@ -12,6 +9,9 @@ export default {
     },
     getStatus() {
       return this.$store.getters.status;
+    },
+    getError() {
+      return this.$store.getters.error;
     },
   },
   methods: {
@@ -23,7 +23,8 @@ export default {
         email,
         password,
       };
-      this.$store.dispatch('signUpAction', user)
+      this.$store
+        .dispatch('signUpAction', user)
         .then((response) => {
           console.log(response);
           this.navigateTo('dashboard');
@@ -37,14 +38,22 @@ export default {
         email,
         password,
       };
-      this.$store.dispatch('signInAction', user)
+      this.$store
+        .dispatch('signInAction', user)
         .then((response) => {
           console.log(response);
           this.navigateTo('dashboard');
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch(err => this.$store.commit('setError', err));
+    },
+    signInWithProviderRedirect() {
+      this.$store
+        .dispatch('signInWithProviderRedirect')
+        .then((response) => {
+          console.log(response);
+          this.navigateTo('dashboard');
+        })
+        .catch(err => this.$store.commit('setError', err));
     },
     signOutWithFirebase() {
       this.$store.dispatch('signOutAction');

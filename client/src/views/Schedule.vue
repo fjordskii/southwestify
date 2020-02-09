@@ -1,16 +1,16 @@
 <template>
   <div class="home">
-    <Confirmation></Confirmation>
+    <ScheduleCheckin></ScheduleCheckin>
   </div>
 </template>
 
 <script>
-import Confirmation from '@/components/Confirmation.vue';
+import ScheduleCheckin from '@/components/ScheduleCheckin.vue';
 
 export default {
   name: 'Schedule',
   components: {
-    Confirmation,
+    ScheduleCheckin,
   },
 };
 </script>
