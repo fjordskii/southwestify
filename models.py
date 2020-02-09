@@ -14,3 +14,7 @@ class Flight(db.Model):
         self.confirmation_number = confirmation_number
         self.first_name = first_name
         self.last_name = last_name
+
+class Apscheduler_Jobs(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128))

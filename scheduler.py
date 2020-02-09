@@ -1,11 +1,12 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
+from config import BaseConfig
 
 scheduler = BackgroundScheduler({
     'apscheduler.jobstores.default': {
         'type': 'sqlalchemy',
-        'url': 'sqlite:///jobs.sqlite'
+        'url': BaseConfig.SQLALCHEMY_DATABASE_URI,
     },
     'apscheduler.executors.default': {
         'class': 'apscheduler.executors.pool:ThreadPoolExecutor',

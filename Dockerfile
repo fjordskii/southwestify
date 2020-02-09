@@ -7,6 +7,7 @@ RUN npm install
 COPY ./client .
 RUN npm run build
 
+
 FROM python:3.6
 WORKDIR /app
 ADD . /app
