@@ -12,7 +12,6 @@ import os
 from tests.checkin_test import test_checkin
 from utils.get_environment import environment
 from routes import routes
-
 """
 WORKON SW
 
@@ -33,6 +32,7 @@ docker-compose up -d
 heroku container:push web
 heroku container:release web
 """
+logging.basicConfig()
 log = logging.getLogger('apscheduler.executors.default')
 log.setLevel(logging.INFO)
 
@@ -51,10 +51,7 @@ else:
     flask_app.config.from_object("config.ProductionConfig")
 
 flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 db = SQLAlchemy(flask_app)
-from models import User, Flight
-
 flask_app.register_blueprint(routes)
 
 if __name__ == '__main__':

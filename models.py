@@ -4,6 +4,9 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128))
 
+    def __init__(self, name):
+        self.name = name
+
 class Flight(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     confirmation_number = db.Column(db.String())
@@ -16,5 +19,13 @@ class Flight(db.Model):
         self.last_name = last_name
 
 class Apscheduler_Jobs(db.Model):
+    __tablename__ = "apscheduler_jobs"
+
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(128))
+    next_run_time = db.Column(db.String(128))
+    job_state = db.Column(db.String(128))
+
+    def __init__(self, name, next_run_time, job_state):
+        self.name = name
+        self.next_run_time = next_run_time
+        self.job_state = job_state

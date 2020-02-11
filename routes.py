@@ -23,6 +23,16 @@ def index(path):
 
 @routes.route('/ping', methods=['GET'])
 def ping_pong():
+    from models import Flight
+    from app import db
+
+    new_flight = Flight(
+        confirmation_number='abc123',
+        first_name='ford',
+        last_name='heacock'
+    )
+    db.session.add(new_flight)
+    db.session.commit()
     return jsonify('pong!')
 
 @routes.route('/schedule-flight-form', methods=['POST'])
