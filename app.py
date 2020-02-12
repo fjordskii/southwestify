@@ -29,6 +29,8 @@ OR
 docker-compose build
 docker-compose up -d
 
+docker exec -it a9ea6395d73c psql -U marco testdb
+
 heroku container:push web
 heroku container:release web
 """
@@ -50,7 +52,17 @@ if environment == "dev":
 else:
     flask_app.config.from_object("config.ProductionConfig")
 
+flask_app.config['SQLALCHEMY_DATABASE_URI'] = \
+    'postgresql+psycopg2://{user}:{passwd}@{host}:{port}/{db}'.format(
+        user=os.environ['DBUSER'],
+        passwd=os.environ['DBPASS'],
+        host=os.environ['DBHOST'],
+        port=os.environ['DBPORT'],
+        db=os.environ['DBNAME'])
+
 flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+flask_app.secret_key = os.environ['SECRET_KEY']
+
 db = SQLAlchemy(flask_app)
 flask_app.register_blueprint(routes)
 

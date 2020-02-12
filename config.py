@@ -3,13 +3,11 @@ import os
 class BaseConfig(object):
     DEBUG = False
     TESTING = False
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "sqlite://")
-
 
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
     TESTING = True
-    ENV = 'development'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://fordwh44@localhost/pyschedule'
 
 class TestingConfig(BaseConfig):
     DEBUG = False
