@@ -12,6 +12,9 @@ re-implement email through firebase functions
 
 create .dockerignore file, remove sensitive info from dockerfile as well
 
+Need to create volume for db
+
+DB string not correctly grabbing environ variables
 
 
 BLOCKED:
