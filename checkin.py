@@ -8,7 +8,7 @@ from threading import Thread
 import sys
 import time
 
-# from .utils.email_utils import send_email
+from utils.email_utils import send_email
 
 CHECKIN_EARLY_SECONDS = 5
 
@@ -25,7 +25,7 @@ def schedule_checkin(flight_time, reservation):
         h, m = divmod(m, 60)
         message = "Too early to check in.  Waiting {} hours, {} minutes, {} seconds".format(trunc(h), trunc(m), s)
         print(message)
-        # send_email(data=None, msg=message)
+        send_email(data=None, email='fordheacock@gmail.com', msg=message)
         try:
             time.sleep(delta)
         except OverflowError:
@@ -36,8 +36,7 @@ def schedule_checkin(flight_time, reservation):
         for doc in flight['passengers']:
             message = "{} got {}{}!".format(doc['name'], doc['boardingGroup'], doc['boardingPosition'])
             print(message)
-            # send_email(doc)
-
+            send_email(data=doc, email='fordheacock@gmail.com')
 
 def auto_checkin(reservation_number, first_name, last_name, verbose=False):
     print('running auto checkin with: {} {} {}'.format(reservation_number, first_name, last_name))
