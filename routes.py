@@ -62,27 +62,3 @@ def schedule_flight():
 @routes.route('/thanks', methods=['GET'])
 def thanks():
     return render_template('thanks.html')
-
-@routes.route('/register', methods=['POST'])
-def register():
-    from firebase import auth
-
-    data = json.loads(request.data)
-    email = data.get('email')
-    password = data.get('password')
-
-    user = auth.create_user_with_email_and_password(email, password)
-    data = jsonify({ 'user_id': user['idToken'], 'email': user['email'] })
-    return data
-
-@routes.route('/login', methods=['POST'])
-def login():
-    from firebase import auth
-
-    data = json.loads(request.data)
-    email = data.get('email')
-    password = data.get('password')
-
-    user = auth.sign_in_with_email_and_password(email, password)
-    data = jsonify({ 'user_id': user['idToken'], 'email': user['email'] })
-    return data

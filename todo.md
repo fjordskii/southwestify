@@ -4,13 +4,15 @@ need to figure out how to actually grab last vue build
 
 persist vue login sessions
 
-
 for successful bookings, switch to PostgreSQL records instead of query params
 
 re-implement email through firebase functions
 
 create .dockerignore file, remove sensitive info from dockerfile as well
 
+Delete firebase.py
+
+Need to connect Users to Flights via FK
 
 VERY IMPORTANT:
 - switch to uWSGI server
