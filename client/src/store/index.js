@@ -82,7 +82,6 @@ export default new Vuex.Store({
           .auth()
           .signInWithPopup(provider)
           .then((response) => {
-            console.log(response);
             commit('setUser', response.user.uid);
             commit('setUserEmail', response.user.email);
             commit('setStatus', 'success');

@@ -42,9 +42,10 @@ def schedule_flight():
     conf = data.get('conf')
     fname = data.get('fname')
     lname = data.get('lname')
+    user_email = data.get('user_email')
 
     try:
-        auto_checkin(conf, fname, lname)
+        auto_checkin(conf, fname, lname, user_email)
         response = jsonify({
             'confirmation': conf,
             'first_name': fname,

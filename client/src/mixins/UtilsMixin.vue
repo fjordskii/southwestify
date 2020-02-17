@@ -28,8 +28,7 @@ export default {
       };
       this.$store
         .dispatch('signUpAction', user)
-        .then((response) => {
-          console.log(response);
+        .then(() => {
           this.navigateTo('dashboard');
         })
         .catch((err) => {
@@ -43,8 +42,7 @@ export default {
       };
       this.$store
         .dispatch('signInAction', user)
-        .then((response) => {
-          console.log(response);
+        .then(() => {
           this.navigateTo('dashboard');
         })
         .catch(err => this.$store.commit('setError', err));
@@ -52,8 +50,7 @@ export default {
     signInWithProviderRedirect() {
       this.$store
         .dispatch('signInWithProviderRedirect')
-        .then((response) => {
-          console.log(response);
+        .then(() => {
           this.navigateTo('dashboard');
         })
         .catch(err => this.$store.commit('setError', err));

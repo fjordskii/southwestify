@@ -22,7 +22,7 @@ def final_checkin(reservation):
             print(message)
             send_email(data=doc, email='thecuatro@gmail.com')
 
-def schedule_checkin(flight_time, reservation):
+def schedule_checkin(flight_time, reservation, user_email):
     unique_id = uuid.uuid4().hex
     checkin_time = flight_time - timedelta(days=1)
     current_time = datetime.utcnow().replace(tzinfo=utc)
@@ -36,7 +36,7 @@ def schedule_checkin(flight_time, reservation):
         h, m = divmod(m, 60)
         message = "Too early to check in.  Waiting {} hours, {} minutes, {} seconds".format(trunc(h), trunc(m), s)
         print(message)
-        send_email(data=None, email='thecuatro@gmail.com', msg=message)
+        send_email(data=None, email=user_email, msg=message)
         try:
             job = scheduler.add_job(final_checkin, trigger='date', next_run_time=str(job_time),
                 args=[reservation], id=reservation.number, replace_existing=True)
@@ -44,14 +44,8 @@ def schedule_checkin(flight_time, reservation):
         except OverflowError:
             print("System unable to sleep for that long, try checking in closer to your departure date")
             sys.exit(1)
-    # data = reservation.checkin()
-    # for flight in data['flights']:
-    #     for doc in flight['passengers']:
-    #         message = "{} got {}{}!".format(doc['name'], doc['boardingGroup'], doc['boardingPosition'])
-    #         print(message)
-    #         send_email(data=doc, email='thecuatro@gmail.com')
 
-def auto_checkin(reservation_number, first_name, last_name, verbose=False):
+def auto_checkin(reservation_number, first_name, last_name, user_email, verbose=False):
     try:
         scheduled_job = scheduler.get_job(reservation_number)
     except:
@@ -73,7 +67,7 @@ def auto_checkin(reservation_number, first_name, last_name, verbose=False):
                 airport_tz = openflights.timezone_for_airport(leg['departureAirport']['code'])
                 date = airport_tz.localize(datetime.strptime(takeoff, '%Y-%m-%d %H:%M'))
                 if date > now:
-                  schedule_checkin(date, r)
+                  schedule_checkin(date, r, user_email)
         else:
             raise 'Bad request made, body is empty.'
     else:

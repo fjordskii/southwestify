@@ -66,10 +66,14 @@ export default {
   methods: {
     postData(e) {
       // need to pass this.userLoggedIn
+      const fromValuesWithEmail = {
+        ...this.formValues,
+        user_email: this.getUserEmail,
+      };
       e.preventDefault();
       this.loading = true;
       axios
-        .post(this.formUrl, this.formValues)
+        .post(this.formUrl, fromValuesWithEmail)
         .then(() => {
           this.complete = true;
           this.loading = false;
