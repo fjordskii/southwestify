@@ -49,9 +49,8 @@ def schedule_flight():
 
     print('Check in details: {} {} {}. Running at {}'.format(conf, fname, lname, now_plus_1))
 
-    # job = scheduler.add_job(test_checkin, trigger='date', next_run_time=str(now_plus_1))
-    job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(now_plus_1),
-                            args=[conf, fname, lname], id=unique_id, replace_existing=True)
+    auto_checkin(conf, fname, lname)
+
     return jsonify({
         'confirmation': conf,
         'first_name': fname,
