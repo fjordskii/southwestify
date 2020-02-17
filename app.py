@@ -18,13 +18,16 @@ WORKON SW
 NEED TO NPM RUN BUILD BEFORE BUILDING IMAGEs
 db:
 fordwh44 pyschedule
-psql -U fordwh44 -d pyschedule
 
 docker system prune -a
 docker build -t <image_name> .
 docker run -p 8000:5000 <image_name>
 
 OR
+
+REF4IF
+
+also docker volumes lol
 
 docker-compose build
 docker-compose up -d
@@ -53,6 +56,14 @@ if environment == "dev":
     flask_app.config.from_object("config.DevelopmentConfig")
 else:
     flask_app.config.from_object("config.ProductionConfig")
+
+flask_app.config['SQLALCHEMY_DATABASE_URI'] = \
+    'postgresql+psycopg2://{user}:{passwd}@{host}:{port}/{db}'.format(
+        user=os.environ['DBUSER'],
+        passwd=os.environ['DBPASS'],
+        host=os.environ['DBHOST'],
+        port=os.environ['DBPORT'],
+        db=os.environ['DBNAME'])
 
 
 flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
