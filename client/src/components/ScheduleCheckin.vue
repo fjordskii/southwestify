@@ -57,7 +57,7 @@ export default {
   }),
   computed: {
     showError() {
-      return this.getError !== '';
+      return this.getError !== '' || this.getError !== null;
     },
     isLoading() {
       return this.loading;
@@ -65,6 +65,7 @@ export default {
   },
   methods: {
     postData(e) {
+      // need to pass this.userLoggedIn
       e.preventDefault();
       this.loading = true;
       axios
@@ -72,6 +73,7 @@ export default {
         .then(() => {
           this.complete = true;
           this.loading = false;
+          this.$store.commit('setError', null);
           this.$router.push({ path: '/thank-you', query: this.formValues });
         })
         .catch((err) => {

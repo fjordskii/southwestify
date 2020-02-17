@@ -7,6 +7,9 @@ export default {
     userLoggedIn() {
       return this.$store.getters.user;
     },
+    getUserEmail() {
+      return this.$store.getters.userEmail;
+    },
     getStatus() {
       return this.$store.getters.status;
     },

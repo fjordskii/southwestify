@@ -7,6 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     user: '',
+    userEmail: '',
     status: '',
     error: '',
   },
@@ -14,8 +15,12 @@ export default new Vuex.Store({
     setUser(state, payload) {
       state.user = payload;
     },
+    setUserEmail(state, payload) {
+      state.userEmail = payload;
+    },
     removeUser(state) {
       state.user = null;
+      state.userEmail = null;
     },
     setStatus(state, payload) {
       state.status = payload;
@@ -33,6 +38,7 @@ export default new Vuex.Store({
           .createUserWithEmailAndPassword(payload.email, payload.password)
           .then((response) => {
             commit('setUser', response.user.uid);
+            commit('setUserEmail', response.user.email);
             commit('setStatus', 'success');
             commit('setError', null);
             resolve(response);
@@ -52,6 +58,7 @@ export default new Vuex.Store({
           .signInWithEmailAndPassword(payload.email, payload.password)
           .then((response) => {
             commit('setUser', response.user.uid);
+            commit('setUserEmail', response.user.email);
             commit('setStatus', 'success');
             commit('setError', null);
             resolve(response);
@@ -76,6 +83,7 @@ export default new Vuex.Store({
           .then((response) => {
             console.log(response);
             commit('setUser', response.user.uid);
+            commit('setUserEmail', response.user.email);
             commit('setStatus', 'success');
             commit('setError', null);
             resolve(response);
@@ -108,6 +116,9 @@ export default new Vuex.Store({
     },
     user(state) {
       return state.user;
+    },
+    userEmail(state) {
+      return state.userEmail;
     },
     error(state) {
       return state.error;

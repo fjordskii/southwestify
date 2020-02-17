@@ -1,3 +1,7 @@
+PASS USER EMAIL TO POST TO SEND NOTIFICATION
+
+
+
 for successful bookings, switch to Firebase records instead of query params
   - Working
   - Need to connect Users to Flights via FK
@@ -13,6 +17,10 @@ Have fail-safe if can't find check-in request
 - just prints
 
 Add loading spinner while Vue makes request to add job
+
+Need to capitalize names/strip white space of forms
+
+potentially need to add CSRF fixes
 
 need to figure out how to actually grab last vue build
 

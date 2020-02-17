@@ -14,6 +14,13 @@ from utils.email_utils import send_email
 
 CHECKIN_EARLY_SECONDS = 5
 
+def final_checkin(reservation):
+    data = reservation.checkin()
+    for flight in data['flights']:
+        for doc in flight['passengers']:
+            message = "{} got {}{}!".format(doc['name'], doc['boardingGroup'], doc['boardingPosition'])
+            print(message)
+            send_email(data=doc, email='thecuatro@gmail.com')
 
 def schedule_checkin(flight_time, reservation):
     unique_id = uuid.uuid4().hex
@@ -29,20 +36,20 @@ def schedule_checkin(flight_time, reservation):
         h, m = divmod(m, 60)
         message = "Too early to check in.  Waiting {} hours, {} minutes, {} seconds".format(trunc(h), trunc(m), s)
         print(message)
-        # send_email(data=None, email='fordheacock@gmail.com', msg=message)
+        send_email(data=None, email='thecuatro@gmail.com', msg=message)
         try:
-            job = scheduler.add_job(auto_checkin, trigger='date', next_run_time=str(job_time),
-                args=[reservation.number, reservation.first, reservation.last], id=reservation.number, replace_existing=True)
+            job = scheduler.add_job(final_checkin, trigger='date', next_run_time=str(job_time),
+                args=[reservation], id=reservation.number, replace_existing=True)
             print('Scheduled check in to run in {}'.format(delta))
         except OverflowError:
             print("System unable to sleep for that long, try checking in closer to your departure date")
             sys.exit(1)
-    data = reservation.checkin()
-    for flight in data['flights']:
-        for doc in flight['passengers']:
-            message = "{} got {}{}!".format(doc['name'], doc['boardingGroup'], doc['boardingPosition'])
-            print(message)
-            # send_email(data=doc, email='fordheacock@gmail.com')
+    # data = reservation.checkin()
+    # for flight in data['flights']:
+    #     for doc in flight['passengers']:
+    #         message = "{} got {}{}!".format(doc['name'], doc['boardingGroup'], doc['boardingPosition'])
+    #         print(message)
+    #         send_email(data=doc, email='thecuatro@gmail.com')
 
 def auto_checkin(reservation_number, first_name, last_name, verbose=False):
     try:
@@ -69,3 +76,5 @@ def auto_checkin(reservation_number, first_name, last_name, verbose=False):
                   schedule_checkin(date, r)
         else:
             raise 'Bad request made, body is empty.'
+    else:
+        print('already checked you in fam')
