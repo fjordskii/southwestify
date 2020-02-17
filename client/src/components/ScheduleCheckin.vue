@@ -21,10 +21,10 @@
               :rules="[v => !!v || 'Last Name is required']"
             ></v-text-field>
             <div v-if="showError">
-              <v-alert dense outlined type="error">
-                {{ getError }}
-              </v-alert>
-            </div>
+                <v-alert dense outlined type="error">
+                  {{ getError }}
+                </v-alert>
+              </div>
           </v-form>
         </v-card-text>
         <v-card-actions>
@@ -57,7 +57,7 @@ export default {
   }),
   computed: {
     showError() {
-      return this.getError !== '' || this.getError !== null;
+      return this.getError !== '' && this.getStatus === 'failure';
     },
     isLoading() {
       return this.loading;
@@ -74,11 +74,13 @@ export default {
           this.complete = true;
           this.loading = false;
           this.$store.commit('setError', null);
+          this.$store.commit('setStatus', null);
           this.$router.push({ path: '/thank-you', query: this.formValues });
         })
         .catch((err) => {
           this.loading = false;
           this.$store.commit('setError', err);
+          this.$store.commit('setStatus', 'failure');
         });
     },
   },
