@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, redirect, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
+from flask_cors import CORS
 import time
 import datetime
 import pytz
@@ -58,6 +59,7 @@ if environment == "dev":
 else:
     flask_app.config.from_object("config.ProductionConfig")
 
+cors = CORS(flask_app, resources={r"/*": {"origins": "https://pyschedule.herokuapp.com/"}})
 
 flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 flask_app.secret_key = os.environ['SECRET_KEY']
