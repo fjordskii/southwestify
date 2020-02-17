@@ -6,7 +6,7 @@ import uuid
 
 BASE_URL = 'https://mobile.southwest.com/api/'
 CHECKIN_INTERVAL_SECONDS = 0.25
-MAX_ATTEMPTS = 40
+MAX_ATTEMPTS = 10
 
 
 class Reservation():
@@ -62,6 +62,8 @@ class Reservation():
                 return data
         except ValueError:
             # Ignore responses with no json data in body
+            pass
+        except SystemExit:
             pass
 
     def load_json_page(self, url, body=None):

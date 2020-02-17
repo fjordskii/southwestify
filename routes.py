@@ -1,6 +1,5 @@
 import time
 import datetime
-import uuid
 import os
 import json
 
@@ -39,24 +38,25 @@ def ping_pong():
 def schedule_flight():
     data = json.loads(request.data)
     now = datetime.datetime.now()
-    unique_id = uuid.uuid4().hex
-    now_plus_1 = now + datetime.timedelta(minutes = 1)
-    now_plus_1 = now_plus_1.replace(second=0, microsecond=0)
 
     conf = data.get('conf')
     fname = data.get('fname')
     lname = data.get('lname')
 
-    print('Check in details: {} {} {}. Running at {}'.format(conf, fname, lname, now_plus_1))
+    try:
+        auto_checkin(conf, fname, lname)
+        response = jsonify({
+            'confirmation': conf,
+            'first_name': fname,
+            'last_name': lname,
+        }), 200
+    except:
+        response = jsonify({
+            'error': 'bad request'
+        }), 400
 
-    auto_checkin(conf, fname, lname)
+    return response
 
-    return jsonify({
-        'confirmation': conf,
-        'first_name': fname,
-        'last_name': lname,
-        'scheduled_for': now_plus_1
-    })
 
 @routes.route('/thanks', methods=['GET'])
 def thanks():

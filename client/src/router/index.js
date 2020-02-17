@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
+// import Home from '../views/Home.vue';
 import About from '../views/About.vue';
 import ThankYou from '../views/ThankYou.vue';
 import Login from '../views/Login.vue';
@@ -15,7 +15,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home,
+    component: Schedule,
   },
   {
     path: '/about',
@@ -38,20 +38,20 @@ const routes = [
     name: 'register',
     component: Register,
   },
-  {
-    path: '/schedule',
-    name: 'schedule',
-    component: Schedule,
-    beforeEnter: (to, from, next) => {
-      if (store.getters.user) {
-        next();
-      } else {
-        next({
-          name: 'home',
-        });
-      }
-    },
-  },
+  // {
+  //   path: '/schedule',
+  //   name: 'schedule',
+  //   component: Schedule,
+  //   beforeEnter: (to, from, next) => {
+  //     if (store.getters.user) {
+  //       next();
+  //     } else {
+  //       next({
+  //         name: 'home',
+  //       });
+  //     }
+  //   },
+  // },
   {
     path: '/dashboard',
     name: 'dashboard',

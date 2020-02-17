@@ -10,6 +10,9 @@ TypeError: 'NoneType' object is not subscriptable
 It's sending emails for both outbound and inbound flights
 
 Have fail-safe if can't find check-in request
+- just prints
+
+Add loading spinner while Vue makes request to add job
 
 need to figure out how to actually grab last vue build
 

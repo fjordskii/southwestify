@@ -16,10 +16,6 @@
           <img src="https://media.glassdoor.com/sqll/611/southwest-airlines-squarelogo-1411584571986.png" alt="John" />
         </v-list-item-avatar>
       </v-list-item>
-      <v-card-actions>
-        <v-btn text>Button</v-btn>
-        <v-btn text>Button</v-btn>
-      </v-card-actions>
     </v-card>
   </div>
 </template>

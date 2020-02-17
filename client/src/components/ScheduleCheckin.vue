@@ -20,10 +20,16 @@
               v-model="formValues.lname"
               :rules="[v => !!v || 'Last Name is required']"
             ></v-text-field>
+            <div v-if="showError">
+              <v-alert dense outlined type="error">
+                {{ getError }}
+              </v-alert>
+            </div>
           </v-form>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="primary" :disabled="!isValid" @click="postData">Schedule</v-btn>
+          <v-btn color="primary" :disabled="!isValid" @click="postData" :loading="isLoading"
+            >Schedule</v-btn>
         </v-card-actions>
       </v-col>
     </v-row>
@@ -46,18 +52,32 @@ export default {
       fname: '',
       lname: '',
     },
+    loading: false,
     complete: false,
   }),
+  computed: {
+    showError() {
+      return this.getError !== '';
+    },
+    isLoading() {
+      return this.loading;
+    },
+  },
   methods: {
     postData(e) {
       e.preventDefault();
+      this.loading = true;
       axios
         .post(this.formUrl, this.formValues)
         .then(() => {
           this.complete = true;
+          this.loading = false;
           this.$router.push({ path: '/thank-you', query: this.formValues });
         })
-        .catch(err => console.log(err));
+        .catch((err) => {
+          this.loading = false;
+          this.$store.commit('setError', err);
+        });
     },
   },
 };
