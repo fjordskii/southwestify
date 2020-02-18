@@ -1,4 +1,8 @@
-SWITCH TO GUNICORN/NGINX
+Switched to GUNICORN :)
+
+Need to add NGINX next
+
+Do Cache stuff for static assets
 
 Check if only scheduling for first flight
 
