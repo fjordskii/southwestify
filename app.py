@@ -60,7 +60,7 @@ if environment == "dev":
 else:
     flask_app.config.from_object("config.ProductionConfig")
 
-cors = CORS(flask_app, resources={r"/*": {"origins": ["http://127.0.0.1:5000/", "https://pyschedule.herokuapp.com/", "http://0.0.0.0:8000/"]}})
+cors = CORS(flask_app, resources={r"/*": {"origins": "https://pyschedule.herokuapp.com/"}})
 
 flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 flask_app.secret_key = os.environ['SECRET_KEY']
