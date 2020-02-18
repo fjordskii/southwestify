@@ -5,15 +5,17 @@ services:
     build:
       context: ./
     image: forddock:latest
-    command: python manage.py run -h 0.0.0.0
+    command: gunicorn --bind 0.0.0.0:5000 manage:flask_app
     ports:
       - 8000:5000
-    volumes:
-      - web_data:/app
     env_file:
       - ./.env
     environment:
       ENVIRONMENT: "${ENVIRONMENT}"
+    volumes:
+      - ./:/app
+    depends_on:
+      - db
   db:
     image: postgres:12.0-alpine
     volumes:
@@ -24,4 +26,3 @@ services:
       - 5432
 volumes:
   postgres_data:
-  web_data:

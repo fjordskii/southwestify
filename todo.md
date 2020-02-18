@@ -1,5 +1,20 @@
-PASS USER EMAIL TO POST TO SEND NOTIFICATION
-  - DOING
+SWITCH TO GUNICORN/NGINX
+
+Check if only scheduling for first flight
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
