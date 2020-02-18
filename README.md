@@ -1,6 +1,6 @@
 # Welcome to Southwestify/Pyschedule!
 
-Provides an ability for users to schedule their Southwest flight check-ins. 
+This application provides an ability for users to schedule their Southwest flight check-ins months in advance (so they don't forget and get a crappy seat!). 
 
 Long story short, there's a thin client that ultimately 
   - POSTs to `/schedule-flight-form` 
