@@ -16,6 +16,9 @@ Long story short, there's a thin client that ultimately
   - Uses Heroku for deployment
   - Uses Heroku PostgreSQL instance as a Job store for APScheduler Jobs
   - Is deployed as a Container via the Dockerfile (docker-compose is ultimately not used in production)
+  - Uses Flask framework for backend
+  - Uses Vue and Vuetify for frontend
+  - Uses Gunicorn for an application server
   
   
   Current known bugs/issues:
@@ -24,3 +27,4 @@ Long story short, there's a thin client that ultimately
   - Need to clean up UI/UX/Copy
   - Google sign in doesn't work in mobile, need to switch to different firebase login method
   - Need to add code coverage to Vue components
+  - Need to add NGINX as a web server to more efficiencly serve static assets as the application grows.
