@@ -1,5 +1,13 @@
 # Welcome to Southwestify/Pyschedule!
 
+Running this app should be as easy as
+```
+git clone git@github.com:fjordski/southwestify.git
+cd pyschedule
+docker-compose build
+docker-compose up
+```
+
 This application provides an ability for users to schedule their Southwest flight check-ins months in advance (so they don't forget and get a crappy seat!). 
 
 Long story short, there's a thin client that ultimately 
