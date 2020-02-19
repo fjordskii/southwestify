@@ -30,9 +30,9 @@ Long story short, there's a thin client that ultimately
   
   
   Current known bugs/issues:
-  - Jobs are currently tied to CST time only, need to change this to global UTC
+  - Need to add ability to edit/delete checkins for a user. Need to map these 1:Many to a User object
   - Jobs may or may not be only scheduling for the first leg of a roundtrip flight, need to investigate
   - Need to clean up UI/UX/Copy
   - Google sign in doesn't work in mobile, need to switch to different firebase login method
   - Need to add code coverage to Vue components
-  - Need to add NGINX as a web server to more efficiencly serve static assets as the application grows.
+  - Need to add NGINX as a web server to more efficiencly serve static assets as the application grows
