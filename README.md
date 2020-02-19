@@ -30,6 +30,7 @@ Long story short, there's a thin client that ultimately
   
   
   Current known bugs/issues:
+  - Need to flesh out heroku.yml to offload docker build resources
   - Need to add ability to edit/delete checkins for a user. Need to map these 1:Many to a User object
   - Jobs may or may not be only scheduling for the first leg of a roundtrip flight, need to investigate
   - Need to clean up UI/UX/Copy
