@@ -2,10 +2,16 @@
   <v-container fill-height fluid class="home">
     <v-row align="center">
       <v-col>
-        <h3 class="display-3">Tired of missing your flight's check-in?</h3>
-        <h2 class="mt-5 mb-5">(We can help with that)</h2>
-        <v-btn large color="primary" class="mx-1" @click="navigateTo('register')">Register</v-btn>
-        <v-btn large color="primary" class="mx-1" @click="navigateTo('login')">Login</v-btn>
+        <v-icon>mdi-airplanemodeactive</v-icon>
+        <h1 class="display-2 flex display-4 font-weight-black">Automate My Check-in</h1>
+        <p class="flex font-weight-light font-italic mb-4">
+          Automate your airline's
+          check-in process!
+        </p>
+        <v-btn large color="primary" class="mx-1" @click="getStarted">
+          Get Started
+          <v-icon class="ml-2">mdi-airplane</v-icon>
+        </v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -17,9 +23,12 @@ import UtilsMixin from '../mixins/UtilsMixin.vue';
 export default {
   name: 'Home',
   mixins: [UtilsMixin],
+  methods: {
+    getStarted() {
+      this.navigateTo('login');
+    },
+  },
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

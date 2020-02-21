@@ -6,7 +6,7 @@ Do Cache stuff for static assets
 
 Check if only scheduling for first flight
 
-
+Map User to AP Job probably in PostgreSQL
 
 
 

@@ -9,7 +9,7 @@
           sitting by the toilet.
         </blockquote>
         <blockquote class="blockquote text-justify">
-          No thanks. Well, thankfully you found this site, because we're here to help! SMFC helps
+          No thanks. Well, thankfully you found this site, because we're here to help! AMC helps
           you out by allowing you to schedule your flight's check-in process. No more terrible
           seats, no more anxiety watching the clock tick down until your check-in slot opens, and no
           more button smashing trying to get 'A'. We do it all for you!

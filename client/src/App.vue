@@ -15,14 +15,6 @@
             <v-list-item-title>Home</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link @click="navigateTo('about')">
-          <v-list-item-action>
-            <v-icon>mdi-alert-circle-outline</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>About</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
         <v-list-item link @click="navigateTo('login')" v-if="!userLoggedIn">
           <v-list-item-action>
             <v-icon>mdi-account</v-icon>
@@ -37,6 +29,22 @@
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Register</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link @click="navigateTo('about')">
+          <v-list-item-action>
+            <v-icon>mdi-alert-circle-outline</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>About</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link @click="navigateTo('FAQ')">
+          <v-list-item-action>
+            <v-icon>mdi-comment-question-outline</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>FAQ</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item link @click="navigateTo('schedule')" v-if="userLoggedIn">
@@ -55,12 +63,20 @@
             <v-list-item-title>Logout</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item link @click="navigateTo('contact')">
+          <v-list-item-action>
+            <v-icon>mdi-email-outline</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Contact Us</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
     <v-app-bar app color="indigo" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title>Schedule My Flight Check-in</v-toolbar-title>
+      <v-toolbar-title>Automate My Check-in (beta)</v-toolbar-title>
     </v-app-bar>
 
     <v-content>
@@ -92,7 +108,7 @@ export default {
       if (this.userLoggedIn) {
         return this.navigateTo('dashboard');
       }
-      return this.navigateTo('home');
+      return this.navigateTo('/');
     },
   },
   props: {

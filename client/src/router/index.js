@@ -7,6 +7,8 @@ import Login from '../views/Login.vue';
 import Register from '../views/Registration.vue';
 import Schedule from '../views/Schedule.vue';
 import Dashboard from '../views/Dashboard.vue';
+import FAQ from '../views/FAQ.vue';
+import Contact from '../views/Contact.vue';
 import store from '../store';
 
 Vue.use(VueRouter);
@@ -21,6 +23,16 @@ const routes = [
     path: '/about',
     name: 'about',
     component: About,
+  },
+  {
+    path: '/faq',
+    name: 'faq',
+    component: FAQ,
+  },
+  {
+    path: '/contact',
+    name: 'contact',
+    component: Contact,
   },
   {
     path: '/thank-you',

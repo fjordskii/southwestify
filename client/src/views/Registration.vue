@@ -39,6 +39,11 @@
     </v-row>
     <v-row>
       <v-col>
+        Already registered? <a @click="navigateTo('login')">Login now.</a>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
         <v-btn color="primary" @click="signInWithGoogle">
           <v-icon>mdi-google</v-icon><span>&nbsp;&nbsp;Google Sign-in</span>
         </v-btn>
