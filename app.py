@@ -39,6 +39,9 @@ ENVIRONMENT="prod" docker-compose up
 
 docker exec -it a9ea6395d73c psql -U postgres testdb
 
+pyenv virtualenv sw
+pyenv activate sw
+
 heroku container:push web
 heroku container:release web
 """

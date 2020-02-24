@@ -8,7 +8,7 @@ class BaseConfig(object):
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'postgresql://fordwh44@localhost/pyschedule'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://fordwh444@localhost/tesseract'
 
 
 class TestingConfig(BaseConfig):

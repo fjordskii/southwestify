@@ -19,7 +19,6 @@ def final_checkin(reservation):
     for flight in data['flights']:
         for doc in flight['passengers']:
             message = "{} got {}{}!".format(doc['name'], doc['boardingGroup'], doc['boardingPosition'])
-            print(message)
             send_email(data=doc, email='thecuatro@gmail.com')
 
 def schedule_checkin(flight_time, reservation, user_email):
@@ -35,22 +34,21 @@ def schedule_checkin(flight_time, reservation, user_email):
         m, s = divmod(delta, 60)
         h, m = divmod(m, 60)
         message = "Too early to check in.  Waiting {} hours, {} minutes, {} seconds".format(trunc(h), trunc(m), s)
-        print(message)
-        send_email(data=None, email=user_email, msg=message)
+        data = {
+            'flight_time': flight_time,
+            'reservation': reservation,
+            'checkin_time': '{}/{}/{} at {}:{}'.format(checkin_time.month, checkin_time.day, checkin_time.year, checkin_time.hour, checkin_time.minute)
+        }
+
         try:
             job = scheduler.add_job(final_checkin, trigger='date', next_run_time=str(job_time),
-                args=[reservation], id=reservation.number, replace_existing=True)
-            print('Scheduled check in to run in {}'.format(delta))
+                args=[reservation], id=unique_id, replace_existing=True)
+            send_email(data=data, email=user_email)
         except OverflowError:
             print("System unable to sleep for that long, try checking in closer to your departure date")
             sys.exit(1)
 
 def auto_checkin(reservation_number, first_name, last_name, user_email, verbose=False):
-    try:
-        scheduled_job = scheduler.get_job(reservation_number)
-    except:
-        scheduled_job = None
-
     if not scheduled_job:
         r = Reservation(reservation_number, first_name, last_name, verbose)
         body = r.lookup_existing_reservation()

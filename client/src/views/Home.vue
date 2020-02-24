@@ -1,6 +1,5 @@
 <template>
-  <v-container fill-height fluid class="home">
-    <v-row align="center">
+    <v-row>
       <v-col>
         <v-icon>mdi-airplanemodeactive</v-icon>
         <h1 class="display-2 flex display-4 font-weight-black">Automate My Check-in</h1>
@@ -14,7 +13,6 @@
         </v-btn>
       </v-col>
     </v-row>
-  </v-container>
 </template>
 
 <script>
