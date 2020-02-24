@@ -1,5 +1,7 @@
 Successfully adds flights both ways now but can make infinite requests, need to address at some point with user data
 
+Need to add SSL cert
+
 Fix 'schedule check-in' button look and feel
 
 add job id to User db object in firebase

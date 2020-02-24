@@ -65,3 +65,5 @@ def auto_checkin(reservation_number, first_name, last_name, user_email, verbose=
             date = airport_tz.localize(datetime.strptime(takeoff, '%Y-%m-%d %H:%M'))
             if date > now:
                 schedule_checkin(date, r, user_email)
+    else:
+        raise 'Bad request made, body is empty.'
