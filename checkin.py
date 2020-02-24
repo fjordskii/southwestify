@@ -49,24 +49,19 @@ def schedule_checkin(flight_time, reservation, user_email):
             sys.exit(1)
 
 def auto_checkin(reservation_number, first_name, last_name, user_email, verbose=False):
-    if not scheduled_job:
-        r = Reservation(reservation_number, first_name, last_name, verbose)
-        body = r.lookup_existing_reservation()
+    r = Reservation(reservation_number, first_name, last_name, verbose)
+    body = r.lookup_existing_reservation()
 
-        if body:
-            # Get our local current time
-            now = datetime.utcnow().replace(tzinfo=utc)
-            tomorrow = now + timedelta(days=1)
+    if body:
+        # Get our local current time
+        now = datetime.utcnow().replace(tzinfo=utc)
+        tomorrow = now + timedelta(days=1)
 
-            for leg in body['bounds']:
-                # calculate departure for this leg
-                airport = "{}, {}".format(leg['departureAirport']['name'], leg['departureAirport']['state'])
-                takeoff = "{} {}".format(leg['departureDate'], leg['departureTime'])
-                airport_tz = openflights.timezone_for_airport(leg['departureAirport']['code'])
-                date = airport_tz.localize(datetime.strptime(takeoff, '%Y-%m-%d %H:%M'))
-                if date > now:
-                  schedule_checkin(date, r, user_email)
-        else:
-            raise 'Bad request made, body is empty.'
-    else:
-        print('already checked you in fam')
+        for leg in body['bounds']:
+            # calculate departure for this leg
+            airport = "{}, {}".format(leg['departureAirport']['name'], leg['departureAirport']['state'])
+            takeoff = "{} {}".format(leg['departureDate'], leg['departureTime'])
+            airport_tz = openflights.timezone_for_airport(leg['departureAirport']['code'])
+            date = airport_tz.localize(datetime.strptime(takeoff, '%Y-%m-%d %H:%M'))
+            if date > now:
+                schedule_checkin(date, r, user_email)
