@@ -14,6 +14,7 @@ new Vue({
   render: h => h(App),
 }).$mount('#app');
 
+
 const config = {
   apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
   authDomain: process.env.VUE_APP_AUTH_DOMAIN,
