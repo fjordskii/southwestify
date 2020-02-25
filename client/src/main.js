@@ -6,7 +6,6 @@ import vuetify from './plugins/vuetify';
 import store from './store';
 
 Vue.config.productionTip = false;
-Vue.config.devtools = true;
 
 new Vue({
   vuetify,
@@ -20,6 +19,7 @@ const config = {
   authDomain: process.env.VUE_APP_AUTH_DOMAIN,
   databaseURL: process.env.VUE_APP_FIREBASE_DATABASE_URL,
   storageBucket: process.env.VUE_APP_STORAGE_BUCKET,
+  measurementId: 'G-6VWCQ9Q5BS',
 };
 
 firebase.initializeApp(config);
