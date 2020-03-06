@@ -1,6 +1,6 @@
 import os
 from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
+from sendgrid.helpers.mail import Mail, To
 
 
 def _generate_subject(data={}):
@@ -18,12 +18,13 @@ def send_email(data, email):
         SUBJECT = 'Scheduled Check-in! AutomateMyCheckin.com'
         TEXT = 'Congrats! We have successfully scheduled a flight check-in for {} with the reservation number {} on {}. We will email you again when the check-in runs to let you know what seat you got! Thanks for using automatemycheckin.com'.format(
             FULL_NAME, reservation.number, data.get('checkin_time'))
+        to_email = To(email)
     else:
         SUBJECT = _generate_subject(data)
         TEXT = _generate_text(data)
     message = Mail(
         from_email='donotreply@automatemycheckin.com',
-        to_emails=email,
+        to_emails=to_email,
         subject=SUBJECT,
         html_content=TEXT)
     try:

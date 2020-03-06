@@ -38,9 +38,10 @@ def schedule_flight():
             'first_name': fname,
             'last_name': lname,
         }), 200
-    except:
+    except Exception as err:
         response = jsonify({
-            'error': 'bad request'
+            'error': 'bad request',
+            'message': err
         }), 400
 
     return response
