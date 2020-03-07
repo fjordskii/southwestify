@@ -14,12 +14,12 @@ from utils.email_utils import send_email
 
 CHECKIN_EARLY_SECONDS = 5
 
-def final_checkin(reservation):
+def final_checkin(reservation, user_email):
     data = reservation.checkin()
     for flight in data['flights']:
         for doc in flight['passengers']:
             message = "{} got {}{}!".format(doc['name'], doc['boardingGroup'], doc['boardingPosition'])
-            send_email(data=doc, email='thecuatro@gmail.com')
+            send_email(data=doc, email=user_email)
 
 def schedule_checkin(flight_time, reservation, user_email):
     unique_id = uuid.uuid4().hex
@@ -42,7 +42,7 @@ def schedule_checkin(flight_time, reservation, user_email):
 
         try:
             job = scheduler.add_job(final_checkin, trigger='date', next_run_time=str(job_time),
-                args=[reservation], id=unique_id, replace_existing=True)
+                args=[reservation, user_email], id=unique_id, replace_existing=True)
             send_email(data=data, email=user_email)
         except OverflowError:
             print("System unable to sleep for that long, try checking in closer to your departure date")

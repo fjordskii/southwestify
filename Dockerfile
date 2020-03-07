@@ -10,6 +10,7 @@ RUN npm run build
 
 FROM python:3.6
 WORKDIR /app
+ADD ./requirements.txt /app/requirements.txt
 ADD . /app
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 EXPOSE 5000
