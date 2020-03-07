@@ -40,7 +40,7 @@ ENVIRONMENT="prod" docker-compose up
 docker exec -it a9ea6395d73c psql -U postgres testdb
 
 pyenv virtualenv sw
-pyenv activate sw
+pyenv activate south
 
 heroku container:push web
 heroku container:release web
