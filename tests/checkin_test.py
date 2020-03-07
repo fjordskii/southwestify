@@ -6,6 +6,7 @@ import checkin
 from datetime import datetime, timedelta
 from .my_vcr import custom_vcr
 from pytz import timezone
+from unittest.mock import Mock, patch
 
 my_vcr = custom_vcr()
 r = southwest.Reservation('XXXXXX', 'John', 'Smith')
@@ -26,18 +27,13 @@ def test_reservation_lookup():
         pytest.fail("Error looking up reservation")
 
 
+@patch('southwest.Reservation.checkin')
 @my_vcr.use_cassette()
-def test_checkin():
+def test_checkin(mock_get):
+    mock_get.return_value.ok = True
     try:
-        r.checkin()
-    except Exception:
-        pytest.fail("Error checking in")
-
-
-@my_vcr.use_cassette()
-def test_checkin_without_passes():
-    try:
-        r.checkin()
+        body = r.checkin()
+        assert body
     except Exception:
         pytest.fail("Error checking in")
 
@@ -47,9 +43,12 @@ def test_openflights_api():
     assert southwest.timezone_for_airport('LAX').zone == "America/Los_Angeles"
 
 
+@patch('checkin.auto_checkin')
 @my_vcr.use_cassette()
-def test_cli():
+def test_cli(mock_checkin):
     try:
-        checkin.auto_checkin('XXXXXX', 'John', 'Smith')
+        mock_checkin('XXXXXX', 'John', 'Smith', 'bobsaget@gmail.com')
+        mock_checkin.assert_called()
+        mock_checkin.assert_called_with('XXXXXX', 'John', 'Smith', 'bobsaget@gmail.com')
     except Exception:
         pytest.fail("cli error")

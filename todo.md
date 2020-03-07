@@ -1,25 +1,4 @@
-Successfully adds flights both ways now but can make infinite requests, need to address at some point with user data
-
-Need to add SSL cert
-
-Fix 'schedule check-in' button look and feel
-
-add job id to User db object in firebase
-
-Need to add NGINX next
-
-Do Cache stuff for static assets
-
-Check if only scheduling for first flight
-
-Map User to AP Job probably in PostgreSQL
-
-
-
-
-
-
-
+Need to create mock methods for testing
 
 
 
